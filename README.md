@@ -21,3 +21,28 @@ Instale as dependencias:
 ```bash
 npm install
 ```
+
+Inicie a aplicacao:
+
+```bash
+npm start
+```
+
+Acesse no navegador:
+
+```text
+http://localhost:3000
+```
+
+## Funcionalidades do snapshot inicial
+
+- Listagem de livros
+- Cadastro de livro
+- Edicao de livro
+- Exclusao de livro
+- Persistencia em arquivo JSON local
+
+## Integrantes
+
+- Patrik Viana
+- Paola Sanches
