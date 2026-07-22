@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= tituloPagina %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <div>
+        <h1><%= tituloPagina %></h1>
+        <p>Preencha os dados principais do livro.</p>
+      </div>
+      <a class="button secondary" href="/livros">Voltar</a>
+    </header>
+
+    <form class="book-form" action="<%= acao %>" method="post">
+      <label for="titulo">Titulo</label>
+      <input id="titulo" name="titulo" type="text" value="<%= livro.titulo || '' %>" required>
+
+      <label for="autor">Autor</label>
+      <input id="autor" name="autor" type="text" value="<%= livro.autor || '' %>" required>
+
+      <label for="ano">Ano</label>
+      <input id="ano" name="ano" type="number" value="<%= livro.ano || '' %>" required>
+
+      <button class="button" type="submit">Salvar</button>
+    </form>
+  </main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogo de Livros</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <div>
+        <h1>Catalogo de Livros</h1>
+        <p>Controle simples de livros cadastrados.</p>
+      </div>
+      <a class="button" href="/livros/novo">Cadastrar livro</a>
+    </header>
+
+    <% if (livros.length === 0) { %>
+      <p class="empty-state">Nenhum livro cadastrado ainda.</p>
+    <% } else { %>
+      <section class="book-list" aria-label="Lista de livros">
+        <% livros.forEach((livro) => { %>
+          <article class="book-card">
+            <div>
+              <h2><%= livro.titulo %></h2>
+              <p><%= livro.autor %> - <%= livro.ano %></p>
+            </div>
+
+            <div class="actions">
+              <a class="button secondary" href="/livros/<%= livro.id %>/editar">Editar</a>
+              <form action="/livros/<%= livro.id %>/excluir" method="post">
+                <button class="button danger" type="submit">Excluir</button>
+              </form>
+            </div>
+          </article>
+        <% }) %>
+      </section>
+    <% } %>
+  </main>
+</body>
+</html>
