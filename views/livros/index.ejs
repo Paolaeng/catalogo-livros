@@ -16,15 +16,29 @@
       <a class="button" href="/livros/novo">Cadastrar livro</a>
     </header>
 
+    <!-- Formulário de Filtro por Categoria -->
+    <form method="get" action="/livros" class="filter-form" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+      <label for="categoria">Filtrar por categoria:</label>
+      <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;">
+        <option value="">Todas as categorias</option>
+        <% todasCategorias.forEach(cat => { %>
+          <option value="<%= cat %>" <%= categoriaFiltro === cat ? 'selected' : '' %>><%= cat %></option>
+        <% }) %>
+      </select>
+      <% if (categoriaFiltro) { %>
+        <a href="/livros" class="button secondary" style="padding: 8px 12px; font-size: 0.9rem;">Limpar filtro</a>
+      <% } %>
+    </form>
+
     <% if (livros.length === 0) { %>
-      <p class="empty-state">Nenhum livro cadastrado ainda.</p>
+      <p class="empty-state">Nenhum livro cadastrado ou encontrado nesta categoria.</p>
     <% } else { %>
       <section class="book-list" aria-label="Lista de livros">
         <% livros.forEach((livro) => { %>
           <article class="book-card">
             <div>
               <h2><%= livro.titulo %></h2>
-              <p><%= livro.autor %> - <%= livro.ano %></p>
+              <p><%= livro.autor %> - <%= livro.ano %> | <span style="background: #e1effe; color: #1e429f; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem;"><%= livro.categoria %></span></p>
             </div>
 
             <div class="actions">

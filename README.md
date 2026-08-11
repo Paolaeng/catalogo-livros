@@ -20,4 +20,5 @@ Instale as dependencias:
 
 ```bash
 npm install
+npm start
 ```

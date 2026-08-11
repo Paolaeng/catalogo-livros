@@ -3,12 +3,14 @@
     "id": 1,
     "titulo": "Dom Casmurro",
     "autor": "Machado de Assis",
-    "ano": 1899
+    "ano": 1899,
+    "categoria": "Ficção"
   },
   {
     "id": 2,
     "titulo": "O Hobbit",
     "autor": "J. R. R. Tolkien",
-    "ano": 1937
+    "ano": 1937,
+    "categoria": "Ficção"
   }
 ]
