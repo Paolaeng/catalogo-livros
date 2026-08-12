@@ -26,6 +26,13 @@ router.get('/', (req, res) => {
     ? statusInformado
     : '';
 
+  const mensagens = {
+    excluido: 'Livro excluído com sucesso.',
+    'livro-nao-encontrado': 'Livro não encontrado. Nenhuma exclusão foi realizada.'
+  };
+
+  const mensagem = mensagens[req.query.mensagem] || '';
+
   const camposOrdenacao = ['titulo', 'autor', 'ano'];
 
   const ordenarPor = camposOrdenacao.includes(req.query.ordenarPor)
@@ -89,6 +96,7 @@ router.get('/', (req, res) => {
     busca,
     categoriaFiltro,
     statusFiltro,
+    mensagem,
     todasCategorias,
     todasSituacoes,
     ordenarPor,
@@ -156,8 +164,14 @@ router.post('/:id/editar', (req, res) => {
 });
 
 router.post('/:id/excluir', (req, res) => {
+  const livro = livrosRepository.buscarPorId(req.params.id);
+
+  if (!livro) {
+    return res.redirect('/livros?mensagem=livro-nao-encontrado');
+  }
+
   livrosRepository.excluir(req.params.id);
-  res.redirect('/livros');
+  res.redirect('/livros?mensagem=excluido');
 });
 
 module.exports = router;

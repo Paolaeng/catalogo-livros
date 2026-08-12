@@ -141,6 +141,14 @@ body {
   padding: 20px;
 }
 
+.feedback {
+  border: 1px solid #a7d7b1;
+  border-radius: 8px;
+  background: #eaf7ed;
+  color: #1f6b2a;
+  padding: 12px 16px;
+}
+
 @media (max-width: 640px) {
   .page-header,
   .book-card,

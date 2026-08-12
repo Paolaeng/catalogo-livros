@@ -19,6 +19,10 @@
       </a>
     </header>
 
+    <% if (mensagem) { %>
+      <p class="feedback" role="status"><%= mensagem %></p>
+    <% } %>
+
     <form class="search-form" method="get" action="/livros">
       <label for="busca">Buscar por título ou autor</label>
 
@@ -225,6 +229,7 @@
               <form
                 action="/livros/<%= livro.id %>/excluir"
                 method="post"
+                onsubmit="return confirm(<%- JSON.stringify('Deseja excluir o livro \"' + livro.titulo + '\"?') %>)"
               >
                 <button class="button danger" type="submit">
                   Excluir
