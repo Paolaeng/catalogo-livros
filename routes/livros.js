@@ -3,40 +3,96 @@ const router = express.Router();
 const livrosRepository = require('../services/livrosRepository');
 const { validarLivro } = require('../services/livrosValidator');
 
-// Rota de listagem com buscas e filtros
 router.get('/', (req, res) => {
-  let livros = livrosRepository.listar();
-  const busca = req.query.busca;
-  const categoriaFiltro = req.query.categoria;
-  const statusFiltro = req.query.statusLeitura;
+  const todosLivros = livrosRepository.listar();
 
-  if (busca) {
-    const termo = busca.toLowerCase();
-    livros = livros.filter(l => 
-      l.titulo.toLowerCase().includes(termo) || 
-      l.autor.toLowerCase().includes(termo)
-    );
+  const busca = typeof req.query.busca === 'string'
+    ? req.query.busca.trim()
+    : '';
+
+  const buscaNormalizada = busca.toLowerCase();
+
+  const categoriaFiltro = typeof req.query.categoria === 'string'
+    ? req.query.categoria
+    : '';
+
+  const statusInformado = typeof req.query.statusLeitura === 'string'
+    ? req.query.statusLeitura
+    : '';
+
+  const statusFiltro = livrosRepository.statusLeituraValidos.includes(
+    statusInformado
+  )
+    ? statusInformado
+    : '';
+
+  const camposOrdenacao = ['titulo', 'autor', 'ano'];
+
+  const ordenarPor = camposOrdenacao.includes(req.query.ordenarPor)
+    ? req.query.ordenarPor
+    : '';
+
+  const direcao = req.query.direcao === 'desc'
+    ? 'desc'
+    : 'asc';
+
+  const todasCategorias = [
+    ...new Set(todosLivros.map((livro) => livro.categoria))
+  ];
+
+  const todasSituacoes = livrosRepository.statusLeituraValidos;
+
+  let livros = todosLivros;
+
+  if (buscaNormalizada) {
+    livros = livros.filter((livro) => {
+      const titulo = String(livro.titulo || '').toLowerCase();
+      const autor = String(livro.autor || '').toLowerCase();
+
+      return titulo.includes(buscaNormalizada)
+        || autor.includes(buscaNormalizada);
+    });
   }
 
   if (categoriaFiltro) {
-    livros = livros.filter(livro => livro.categoria === categoriaFiltro);
+    livros = livros.filter(
+      (livro) => livro.categoria === categoriaFiltro
+    );
   }
 
   if (statusFiltro) {
-    livros = livros.filter(livro => livro.statusLeitura === statusFiltro);
+    livros = livros.filter(
+      (livro) => livro.statusLeitura === statusFiltro
+    );
   }
 
-  const todosOsLivros = livrosRepository.listar();
-  const todasCategorias = [...new Set(todosOsLivros.map(l => l.categoria))];
-  const todasSituacoes = ['Quero ler', 'Lendo', 'Concluído'];
+  if (ordenarPor) {
+    const fatorDirecao = direcao === 'desc' ? -1 : 1;
 
-  res.render('livros/index', { 
-    livros, 
-    busca: busca || '',
-    categoriaFiltro: categoriaFiltro || '', 
-    statusFiltro: statusFiltro || '',
+    livros = [...livros].sort((livroA, livroB) => {
+      if (ordenarPor === 'ano') {
+        return (
+          Number(livroA.ano) - Number(livroB.ano)
+        ) * fatorDirecao;
+      }
+
+      return String(livroA[ordenarPor] || '').localeCompare(
+        String(livroB[ordenarPor] || ''),
+        'pt-BR',
+        { sensitivity: 'base' }
+      ) * fatorDirecao;
+    });
+  }
+
+  res.render('livros/index', {
+    livros,
+    busca,
+    categoriaFiltro,
+    statusFiltro,
     todasCategorias,
-    todasSituacoes
+    todasSituacoes,
+    ordenarPor,
+    direcao
   });
 });
 
@@ -87,7 +143,10 @@ router.post('/:id/editar', (req, res) => {
     return res.render('livros/form', {
       tituloPagina: 'Editar livro',
       acao: `/livros/${req.params.id}/editar`,
-      livro: { id: req.params.id, ...req.body },
+      livro: {
+        id: req.params.id,
+        ...req.body
+      },
       erros
     });
   }
