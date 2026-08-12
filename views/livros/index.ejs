@@ -31,7 +31,11 @@
     </form>
 
     <% if (livros.length === 0) { %>
-      <p class="empty-state">Nenhum livro cadastrado ou encontrado nesta categoria.</p>
+      <% if (categoriaFiltro) { %>
+        <p class="empty-state">Nenhum livro encontrado para a categoria selecionada.</p>
+      <% } else { %>
+        <p class="empty-state">Nenhum livro cadastrado no catálogo.</p>
+      <% } %>
     <% } else { %>
       <section class="book-list" aria-label="Lista de livros">
         <% livros.forEach((livro) => { %>
