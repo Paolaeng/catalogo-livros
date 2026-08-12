@@ -14,5 +14,69 @@
     "ano": 1937,
     "categoria": "Ficção",
     "statusLeitura": "Lendo"
+  },
+  {
+    "id": 3,
+    "titulo": "1984",
+    "autor": "George Orwell",
+    "ano": 1949,
+    "categoria": "Ficção",
+    "statusLeitura": "Quero ler"
+  },
+  {
+    "id": 4,
+    "titulo": "Clean Code",
+    "autor": "Robert C. Martin",
+    "ano": 2008,
+    "categoria": "Tecnologia",
+    "statusLeitura": "Lendo"
+  },
+  {
+    "id": 5,
+    "titulo": "Sapiens",
+    "autor": "Yuval Noah Harari",
+    "ano": 2011,
+    "categoria": "História",
+    "statusLeitura": "Concluído"
+  },
+  {
+    "id": 6,
+    "titulo": "O Pequeno Príncipe",
+    "autor": "Antoine de Saint-Exupéry",
+    "ano": 1943,
+    "categoria": "Literatura",
+    "statusLeitura": "Quero ler"
+  },
+  {
+    "id": 7,
+    "titulo": "Steve Jobs",
+    "autor": "Walter Isaacson",
+    "ano": 2011,
+    "categoria": "Biografia",
+    "statusLeitura": "Lendo"
+  },
+  {
+    "id": 8,
+    "titulo": "A Revolução dos Bichos",
+    "autor": "George Orwell",
+    "ano": 1945,
+    "categoria": "Ficção",
+    "statusLeitura": "Concluído"
+  },
+  {
+    "id": 9,
+    "titulo": "O Senhor dos Anéis",
+    "autor": "J. R. R. Tolkien",
+    "ano": 1954,
+    "categoria": "Fantasia",
+    "statusLeitura": "Quero ler"
+  },
+  {
+    "id": 10,
+    "titulo": "A Menina que Roubava Livros",
+    "autor": "Markus Zusak",
+    "ano": 2005,
+    "categoria": "Ficção",
+    "statusLeitura": "Lendo"
   }
 ]

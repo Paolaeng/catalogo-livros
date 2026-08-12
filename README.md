@@ -34,6 +34,8 @@ Acesse no navegador:
 http://localhost:3000
 ```
 
+O arquivo de exemplos inicia o catálogo com dez livros distribuídos entre diferentes categorias e situações de leitura. Isso facilita os testes de busca, filtros e ordenação.
+
 ## Funcionalidade de categorias
 
 A Issue #1 adiciona categorias aos livros.
