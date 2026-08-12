@@ -3,8 +3,22 @@ const router = express.Router();
 const livrosRepository = require('../services/livrosRepository');
 
 router.get('/', (req, res) => {
-  const livros = livrosRepository.listar();
-  res.render('livros/index', { livros });
+  let livros = livrosRepository.listar();
+  const categoriaFiltro = req.query.categoria;
+
+  // Se houver um filtro de categoria selecionado, filtra a lista
+  if (categoriaFiltro) {
+    livros = livros.filter(livro => livro.categoria === categoriaFiltro);
+  }
+
+  // Extrai todas as categorias únicas para exibir no menu de filtro da tela
+  const todasCategorias = [...new Set(livrosRepository.listar().map(l => l.categoria))];
+
+  res.render('livros/index', { 
+    livros, 
+    categoriaFiltro: categoriaFiltro || '', 
+    todasCategorias 
+  });
 });
 
 router.get('/novo', (req, res) => {

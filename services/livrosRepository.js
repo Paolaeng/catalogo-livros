@@ -18,7 +18,13 @@ function ensureDataFile() {
 function listar() {
   ensureDataFile();
   const conteudo = fs.readFileSync(dataPath, 'utf-8');
-  return JSON.parse(conteudo);
+  const livros = JSON.parse(conteudo);
+  
+  // Garante que registros antigos sem categoria venham com um valor padrão
+  return livros.map(livro => ({
+    ...livro,
+    categoria: livro.categoria || 'Geral'
+  }));
 }
 
 function salvarTodos(livros) {
@@ -36,7 +42,8 @@ function criar(dados) {
     id: Date.now(),
     titulo: dados.titulo,
     autor: dados.autor,
-    ano: Number(dados.ano)
+    ano: Number(dados.ano),
+    categoria: dados.categoria || 'Geral'
   };
 
   livros.push(novoLivro);
@@ -57,7 +64,8 @@ function atualizar(id, dados) {
       ...livro,
       titulo: dados.titulo,
       autor: dados.autor,
-      ano: Number(dados.ano)
+      ano: Number(dados.ano),
+      categoria: dados.categoria || 'Geral'
     };
   });
 
