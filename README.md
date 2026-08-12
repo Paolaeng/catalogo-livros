@@ -57,6 +57,15 @@ A Issue #2 adiciona o controle de progresso de leitura aos livros.
 * filtrar os livros por status de leitura, preservando os demais filtros;
 * usar `Quero ler` como valor padrão para livros antigos sem status definido.
 
+## Validação e Tratamento de Erros (Issue #3)
+
+A Issue #3 implementa:
+
+- Validação de preenchimento para título, autor e ano nos formulários;
+- Mensagens de erro amigáveis exibidas junto aos campos do formulário com preservação dos dados digitados;
+- Página 404 personalizada para URLs inexistentes e tratamento seguro de erros sem exposição de stack trace;
+- Melhorias gerais de acessibilidade (foco visível e associação de labels) e responsividade para telas pequenas.
+
 ## Funcionalidades do snapshot inicial
 
 - Listagem de livros
