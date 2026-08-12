@@ -1,9 +1,8 @@
+# Catálogo de Livros
 
-Catalogo de Livros
+Aplicação Web simples para gerenciamento de um catálogo pessoal de livros.
 
-Aplicacao Web simples para gerenciamento de um catalogo pessoal de livros
-
-Este projeto faz parte do trabalho final da disciplina de Versionamento e Codigo.
+Este projeto faz parte do trabalho final da disciplina de Versionamento de Código.
 
 ## Tecnologias
 
@@ -17,13 +16,45 @@ Este projeto faz parte do trabalho final da disciplina de Versionamento e Codigo
 
 ## Como executar
 
-Instale as dependencias:
+Instale as dependências:
 
 ```bash
 npm install
+```
+
+Inicie a aplicação:
+
+```bash
 npm start
 ```
 
-### Funcionalidade de Categorias (Issue #1)
+Acesse no navegador:
 
-O sistema agora permite classificar os livros por categorias (como Ficção, Tecnologia, etc.), exibi-las na listagem principal e filtrar o catálogo rapidamente utilizando o seletor de categorias no topo da página.
+```text
+http://localhost:3000
+```
+
+## Funcionalidade de categorias
+
+A Issue #1 adiciona categorias aos livros.
+
+É possível:
+
+- cadastrar um livro com categoria;
+- editar a categoria de um livro;
+- visualizar a categoria na listagem;
+- filtrar os livros por categoria;
+- usar `Geral` como valor padrão para livros antigos sem categoria.
+
+## Funcionalidades do snapshot inicial
+
+- Listagem de livros
+- Cadastro de livro
+- Edição de livro
+- Exclusão de livro
+- Persistência em arquivo JSON local
+
+## Integrantes
+
+- Patrik Viana
+- Paola Sanches
