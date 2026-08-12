@@ -5,6 +5,20 @@ const dataDir = path.join(__dirname, '..', 'data');
 const examplePath = path.join(dataDir, 'livros.example.json');
 const dataPath = path.join(dataDir, 'livros.json');
 
+const statusLeituraValidos = [
+  'Quero ler',
+  'Lendo',
+  'Concluído'
+];
+
+function normalizarStatusLeitura(statusLeitura) {
+  if (statusLeituraValidos.includes(statusLeitura)) {
+    return statusLeitura;
+  }
+
+  return 'Quero ler';
+}
+
 function ensureDataFile() {
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
@@ -17,13 +31,14 @@ function ensureDataFile() {
 
 function listar() {
   ensureDataFile();
+
   const conteudo = fs.readFileSync(dataPath, 'utf-8');
   const livros = JSON.parse(conteudo);
-  
-  return livros.map(livro => ({
+
+  return livros.map((livro) => ({
     ...livro,
     categoria: livro.categoria || 'Geral',
-    statusLeitura: livro.statusLeitura || 'Quero ler'
+    statusLeitura: normalizarStatusLeitura(livro.statusLeitura)
   }));
 }
 
@@ -38,17 +53,19 @@ function buscarPorId(id) {
 
 function criar(dados) {
   const livros = listar();
+
   const novoLivro = {
     id: Date.now(),
     titulo: dados.titulo,
     autor: dados.autor,
     ano: Number(dados.ano),
     categoria: dados.categoria || 'Geral',
-    statusLeitura: dados.statusLeitura || 'Quero ler'
+    statusLeitura: normalizarStatusLeitura(dados.statusLeitura)
   };
 
   livros.push(novoLivro);
   salvarTodos(livros);
+
   return novoLivro;
 }
 
@@ -67,7 +84,7 @@ function atualizar(id, dados) {
       autor: dados.autor,
       ano: Number(dados.ano),
       categoria: dados.categoria || 'Geral',
-      statusLeitura: dados.statusLeitura || 'Quero ler'
+      statusLeitura: normalizarStatusLeitura(dados.statusLeitura)
     };
   });
 
@@ -77,7 +94,9 @@ function atualizar(id, dados) {
 function excluir(id) {
   const livroId = Number(id);
   const livros = listar();
+
   const atualizados = livros.filter((livro) => livro.id !== livroId);
+
   salvarTodos(atualizados);
 }
 
@@ -86,5 +105,6 @@ module.exports = {
   buscarPorId,
   criar,
   atualizar,
-  excluir
+  excluir,
+  statusLeituraValidos
 };
