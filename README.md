@@ -46,6 +46,17 @@ A Issue #1 adiciona categorias aos livros.
 - filtrar os livros por categoria;
 - usar `Geral` como valor padrão para livros antigos sem categoria.
 
+## Situação da leitura e filtro
+
+A Issue #2 adiciona o controle de progresso de leitura aos livros.
+
+É possível:
+
+* cadastrar e editar o status de leitura (`Quero ler`, `Lendo` ou `Concluído`);
+* visualizar a situação de leitura na listagem de livros;
+* filtrar os livros por status de leitura, preservando os demais filtros;
+* usar `Quero ler` como valor padrão para livros antigos sem status definido.
+
 ## Funcionalidades do snapshot inicial
 
 - Listagem de livros
@@ -60,7 +71,7 @@ Na listagem, use o campo de busca para procurar livros por parte do título ou d
 
 ## Ordenação da lista
 
-Na listagem, use os campos de ordenação para organizar os livros por título, autor ou ano, em ordem crescente ou decrescente. A ordenação pode ser combinada com a busca e o filtro por categoria sem alterar o arquivo JSON.
+Na listagem, use os campos de ordenação para organizar os livros por título, autor ou ano, em ordem crescente ou decrescente. A ordenação pode ser combinada com a busca e os filtros por categoria e situação de leitura sem alterar o arquivo JSON.
 
 ## Integrantes
 

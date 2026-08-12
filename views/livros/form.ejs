@@ -27,7 +27,14 @@
       <input id="ano" name="ano" type="number" value="<%= livro.ano || '' %>" required>
 
       <label for="categoria">Categoria</label>
-      <input id="categoria" name="categoria" type="text" value="<%= livro.categoria || '' %>" placeholder="Ex: Ficção, Tecnologia, História" required>
+      <input id="categoria" name="categoria" type="text" value="<%= livro.categoria || '' %>" placeholder="Ex: Ficção, Tecnologia" required>
+
+      <label for="statusLeitura">Situação da Leitura</label>
+      <select id="statusLeitura" name="statusLeitura" style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;">
+        <option value="Quero ler" <%= livro.statusLeitura === 'Quero ler' ? 'selected' : '' %>>Quero ler</option>
+        <option value="Lendo" <%= livro.statusLeitura === 'Lendo' ? 'selected' : '' %>>Lendo</option>
+        <option value="Concluído" <%= livro.statusLeitura === 'Concluído' ? 'selected' : '' %>>Concluído</option>
+      </select>
 
       <button class="button" type="submit">Salvar</button>
     </form>

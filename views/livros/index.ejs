@@ -3,24 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catalogo de Livros</title>
+  <title>Catálogo de Livros</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
   <main class="container">
     <header class="page-header">
       <div>
-        <h1>Catalogo de Livros</h1>
+        <h1>Catálogo de Livros</h1>
         <p>Controle simples de livros cadastrados.</p>
       </div>
-      <a class="button" href="/livros/novo">Cadastrar livro</a>
+
+      <a class="button" href="/livros/novo">
+        Cadastrar livro
+      </a>
     </header>
 
     <form class="search-form" method="get" action="/livros">
       <label for="busca">Buscar por título ou autor</label>
+
       <% if (categoriaFiltro) { %>
-        <input type="hidden" name="categoria" value="<%= categoriaFiltro %>">
+        <input
+          type="hidden"
+          name="categoria"
+          value="<%= categoriaFiltro %>"
+        >
       <% } %>
+
+      <% if (statusFiltro) { %>
+        <input
+          type="hidden"
+          name="statusLeitura"
+          value="<%= statusFiltro %>"
+        >
+      <% } %>
+
+      <% if (ordenarPor) { %>
+        <input type="hidden" name="ordenarPor" value="<%= ordenarPor %>">
+        <input type="hidden" name="direcao" value="<%= direcao %>">
+      <% } %>
+
       <div class="search-controls">
         <input
           id="busca"
@@ -29,26 +51,98 @@
           value="<%= busca %>"
           placeholder="Digite parte do título ou autor"
         >
-        <button class="button" type="submit">Buscar</button>
+
+        <button class="button" type="submit">
+          Buscar
+        </button>
+
         <% if (busca) { %>
-          <a class="button secondary" href="/livros">Limpar busca</a>
+          <a class="button secondary" href="/livros">
+            Limpar busca
+          </a>
         <% } %>
       </div>
     </form>
 
-    <form method="get" action="/livros" class="filter-form" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
-      <label for="categoria">Filtrar por categoria:</label>
+    <form
+      method="get"
+      action="/livros"
+      class="filter-form"
+      style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;"
+    >
       <% if (busca) { %>
-        <input type="hidden" name="busca" value="<%= busca %>">
+        <input
+          type="hidden"
+          name="busca"
+          value="<%= busca %>"
+        >
       <% } %>
-      <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;">
+
+      <% if (ordenarPor) { %>
+        <input type="hidden" name="ordenarPor" value="<%= ordenarPor %>">
+        <input type="hidden" name="direcao" value="<%= direcao %>">
+      <% } %>
+
+      <% if (statusFiltro) { %>
+        <input
+          type="hidden"
+          name="statusLeitura"
+          value="<%= statusFiltro %>"
+        >
+      <% } %>
+
+      <label for="categoria">
+        Filtrar por categoria:
+      </label>
+
+      <select
+        name="categoria"
+        id="categoria"
+        onchange="this.form.submit()"
+        style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;"
+      >
         <option value="">Todas as categorias</option>
-        <% todasCategorias.forEach(cat => { %>
-          <option value="<%= cat %>" <%= categoriaFiltro === cat ? 'selected' : '' %>><%= cat %></option>
+
+        <% todasCategorias.forEach((categoria) => { %>
+          <option
+            value="<%= categoria %>"
+            <%= categoriaFiltro === categoria ? 'selected' : '' %>
+          >
+            <%= categoria %>
+          </option>
         <% }) %>
       </select>
-      <% if (categoriaFiltro) { %>
-        <a href="/livros" class="button secondary" style="padding: 8px 12px; font-size: 0.9rem;">Limpar filtro</a>
+
+      <label for="statusLeitura">
+        Filtrar por situação:
+      </label>
+
+      <select
+        name="statusLeitura"
+        id="statusLeitura"
+        onchange="this.form.submit()"
+        style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;"
+      >
+        <option value="">Todas as situações</option>
+
+        <% todasSituacoes.forEach((situacao) => { %>
+          <option
+            value="<%= situacao %>"
+            <%= statusFiltro === situacao ? 'selected' : '' %>
+          >
+            <%= situacao %>
+          </option>
+        <% }) %>
+      </select>
+
+      <% if (categoriaFiltro || statusFiltro) { %>
+        <a
+          href="/livros"
+          class="button secondary"
+          style="padding: 8px 12px; font-size: 0.9rem;"
+        >
+          Limpar filtros
+        </a>
       <% } %>
     </form>
 
@@ -59,6 +153,9 @@
       <% } %>
       <% if (categoriaFiltro) { %>
         <input type="hidden" name="categoria" value="<%= categoriaFiltro %>">
+      <% } %>
+      <% if (statusFiltro) { %>
+        <input type="hidden" name="statusLeitura" value="<%= statusFiltro %>">
       <% } %>
       <div class="sort-controls">
         <select id="ordenarPor" name="ordenarPor">
@@ -77,12 +174,18 @@
 
     <% if (livros.length === 0) { %>
       <p class="empty-state">
-        <% if (busca && categoriaFiltro) { %>
-          Nenhum livro encontrado para "<%= busca %>" nesta categoria.
+        <% if (busca && categoriaFiltro && statusFiltro) { %>
+          Nenhum livro encontrado para essa busca, categoria e situação.
+        <% } else if (busca && categoriaFiltro) { %>
+          Nenhum livro encontrado para essa busca nesta categoria.
+        <% } else if (busca && statusFiltro) { %>
+          Nenhum livro encontrado para essa busca nesta situação.
         <% } else if (busca) { %>
           Nenhum livro encontrado para "<%= busca %>".
         <% } else if (categoriaFiltro) { %>
           Nenhum livro encontrado para a categoria selecionada.
+        <% } else if (statusFiltro) { %>
+          Nenhum livro encontrado para a situação selecionada.
         <% } else { %>
           Nenhum livro cadastrado no catálogo.
         <% } %>
@@ -93,13 +196,39 @@
           <article class="book-card">
             <div>
               <h2><%= livro.titulo %></h2>
-              <p><%= livro.autor %> - <%= livro.ano %> | <span style="background: #e1effe; color: #1e429f; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem;"><%= livro.categoria %></span></p>
+
+              <p>
+                <%= livro.autor %> - <%= livro.ano %> |
+
+                <span
+                  style="background: #e1effe; color: #1e429f; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem;"
+                >
+                  <%= livro.categoria %>
+                </span>
+
+                <span
+                  style="background: #f3f4f6; color: #374151; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; margin-left: 5px;"
+                >
+                  <%= livro.statusLeitura %>
+                </span>
+              </p>
             </div>
 
             <div class="actions">
-              <a class="button secondary" href="/livros/<%= livro.id %>/editar">Editar</a>
-              <form action="/livros/<%= livro.id %>/excluir" method="post">
-                <button class="button danger" type="submit">Excluir</button>
+              <a
+                class="button secondary"
+                href="/livros/<%= livro.id %>/editar"
+              >
+                Editar
+              </a>
+
+              <form
+                action="/livros/<%= livro.id %>/excluir"
+                method="post"
+              >
+                <button class="button danger" type="submit">
+                  Excluir
+                </button>
               </form>
             </div>
           </article>

@@ -4,13 +4,15 @@
     "titulo": "Dom Casmurro",
     "autor": "Machado de Assis",
     "ano": 1899,
-    "categoria": "Ficção"
+    "categoria": "Ficção",
+    "statusLeitura": "Concluído"
   },
   {
     "id": 2,
     "titulo": "O Hobbit",
     "autor": "J. R. R. Tolkien",
     "ano": 1937,
-    "categoria": "Ficção"
+    "categoria": "Ficção",
+    "statusLeitura": "Lendo"
   }
 ]
