@@ -73,6 +73,10 @@ Na listagem, use o campo de busca para procurar livros por parte do título ou d
 
 Na listagem, use os campos de ordenação para organizar os livros por título, autor ou ano, em ordem crescente ou decrescente. A ordenação pode ser combinada com a busca e os filtros por categoria e situação de leitura sem alterar o arquivo JSON.
 
+## Exclusão segura e feedback
+
+Antes de excluir um livro, a aplicação pede confirmação mostrando o título do registro. O cancelamento mantém o livro no catálogo. Depois da exclusão, uma mensagem informa o resultado da operação. Tentativas de excluir um livro inexistente não derrubam o servidor e não alteram os dados.
+
 ## Integrantes
 
 - Patrik Viana
