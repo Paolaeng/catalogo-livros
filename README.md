@@ -54,6 +54,10 @@ A Issue #1 adiciona categorias aos livros.
 - Exclusão de livro
 - Persistência em arquivo JSON local
 
+## Busca de livros
+
+Na listagem, use o campo de busca para procurar livros por parte do título ou do autor. A busca não diferencia letras maiúsculas e minúsculas e pode ser limpa pelo botão correspondente.
+
 ## Integrantes
 
 - Patrik Viana

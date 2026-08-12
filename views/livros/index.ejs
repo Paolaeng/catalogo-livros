@@ -16,9 +16,31 @@
       <a class="button" href="/livros/novo">Cadastrar livro</a>
     </header>
 
-    <!-- Formulário de Filtro por Categoria -->
+    <form class="search-form" method="get" action="/livros">
+      <label for="busca">Buscar por título ou autor</label>
+      <% if (categoriaFiltro) { %>
+        <input type="hidden" name="categoria" value="<%= categoriaFiltro %>">
+      <% } %>
+      <div class="search-controls">
+        <input
+          id="busca"
+          name="busca"
+          type="search"
+          value="<%= busca %>"
+          placeholder="Digite parte do título ou autor"
+        >
+        <button class="button" type="submit">Buscar</button>
+        <% if (busca) { %>
+          <a class="button secondary" href="/livros">Limpar busca</a>
+        <% } %>
+      </div>
+    </form>
+
     <form method="get" action="/livros" class="filter-form" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
       <label for="categoria">Filtrar por categoria:</label>
+      <% if (busca) { %>
+        <input type="hidden" name="busca" value="<%= busca %>">
+      <% } %>
       <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;">
         <option value="">Todas as categorias</option>
         <% todasCategorias.forEach(cat => { %>
@@ -31,11 +53,17 @@
     </form>
 
     <% if (livros.length === 0) { %>
-      <% if (categoriaFiltro) { %>
-        <p class="empty-state">Nenhum livro encontrado para a categoria selecionada.</p>
-      <% } else { %>
-        <p class="empty-state">Nenhum livro cadastrado no catálogo.</p>
-      <% } %>
+      <p class="empty-state">
+        <% if (busca && categoriaFiltro) { %>
+          Nenhum livro encontrado para "<%= busca %>" nesta categoria.
+        <% } else if (busca) { %>
+          Nenhum livro encontrado para "<%= busca %>".
+        <% } else if (categoriaFiltro) { %>
+          Nenhum livro encontrado para a categoria selecionada.
+        <% } else { %>
+          Nenhum livro cadastrado no catálogo.
+        <% } %>
+      </p>
     <% } else { %>
       <section class="book-list" aria-label="Lista de livros">
         <% livros.forEach((livro) => { %>
