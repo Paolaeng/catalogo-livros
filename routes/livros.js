@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const livrosRepository = require('../services/livrosRepository');
+const { validarLivro } = require('../services/livrosValidator');
 
 router.get('/', (req, res) => {
   const todosLivros = livrosRepository.listar();
@@ -19,7 +20,9 @@ router.get('/', (req, res) => {
     ? req.query.statusLeitura
     : '';
 
-  const statusFiltro = livrosRepository.statusLeituraValidos.includes(statusInformado)
+  const statusFiltro = livrosRepository.statusLeituraValidos.includes(
+    statusInformado
+  )
     ? statusInformado
     : '';
 
@@ -29,6 +32,16 @@ router.get('/', (req, res) => {
   };
 
   const mensagem = mensagens[req.query.mensagem] || '';
+
+  const camposOrdenacao = ['titulo', 'autor', 'ano'];
+
+  const ordenarPor = camposOrdenacao.includes(req.query.ordenarPor)
+    ? req.query.ordenarPor
+    : '';
+
+  const direcao = req.query.direcao === 'desc'
+    ? 'desc'
+    : 'asc';
 
   const todasCategorias = [
     ...new Set(todosLivros.map((livro) => livro.categoria))
@@ -49,25 +62,25 @@ router.get('/', (req, res) => {
   }
 
   if (categoriaFiltro) {
-    livros = livros.filter((livro) => livro.categoria === categoriaFiltro);
+    livros = livros.filter(
+      (livro) => livro.categoria === categoriaFiltro
+    );
   }
 
   if (statusFiltro) {
-    livros = livros.filter((livro) => livro.statusLeitura === statusFiltro);
+    livros = livros.filter(
+      (livro) => livro.statusLeitura === statusFiltro
+    );
   }
-
-  const camposOrdenacao = ['titulo', 'autor', 'ano'];
-  const ordenarPor = camposOrdenacao.includes(req.query.ordenarPor)
-    ? req.query.ordenarPor
-    : '';
-  const direcao = req.query.direcao === 'desc' ? 'desc' : 'asc';
 
   if (ordenarPor) {
     const fatorDirecao = direcao === 'desc' ? -1 : 1;
 
     livros = [...livros].sort((livroA, livroB) => {
       if (ordenarPor === 'ano') {
-        return (Number(livroA.ano) - Number(livroB.ano)) * fatorDirecao;
+        return (
+          Number(livroA.ano) - Number(livroB.ano)
+        ) * fatorDirecao;
       }
 
       return String(livroA[ordenarPor] || '').localeCompare(
@@ -95,11 +108,23 @@ router.get('/novo', (req, res) => {
   res.render('livros/form', {
     tituloPagina: 'Cadastrar livro',
     acao: '/livros',
-    livro: {}
+    livro: {},
+    erros: {}
   });
 });
 
 router.post('/', (req, res) => {
+  const erros = validarLivro(req.body);
+
+  if (Object.keys(erros).length > 0) {
+    return res.render('livros/form', {
+      tituloPagina: 'Cadastrar livro',
+      acao: '/livros',
+      livro: req.body,
+      erros
+    });
+  }
+
   livrosRepository.criar(req.body);
   res.redirect('/livros');
 });
@@ -114,11 +139,26 @@ router.get('/:id/editar', (req, res, next) => {
   res.render('livros/form', {
     tituloPagina: 'Editar livro',
     acao: `/livros/${livro.id}/editar`,
-    livro
+    livro,
+    erros: {}
   });
 });
 
 router.post('/:id/editar', (req, res) => {
+  const erros = validarLivro(req.body);
+
+  if (Object.keys(erros).length > 0) {
+    return res.render('livros/form', {
+      tituloPagina: 'Editar livro',
+      acao: `/livros/${req.params.id}/editar`,
+      livro: {
+        id: req.params.id,
+        ...req.body
+      },
+      erros
+    });
+  }
+
   livrosRepository.atualizar(req.params.id, req.body);
   res.redirect('/livros');
 });

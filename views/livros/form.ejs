@@ -17,17 +17,26 @@
     </header>
 
     <form class="book-form" action="<%= acao %>" method="post">
-      <label for="titulo">Titulo</label>
-      <input id="titulo" name="titulo" type="text" value="<%= livro.titulo || '' %>" required>
+      <label for="titulo">Título</label>
+      <input id="titulo" name="titulo" type="text" value="<%= livro.titulo || '' %>">
+      <% if (erros && erros.titulo) { %>
+        <span style="color: #dc2626; font-size: 0.85rem;"><%= erros.titulo %></span>
+      <% } %>
 
       <label for="autor">Autor</label>
-      <input id="autor" name="autor" type="text" value="<%= livro.autor || '' %>" required>
+      <input id="autor" name="autor" type="text" value="<%= livro.autor || '' %>">
+      <% if (erros && erros.autor) { %>
+        <span style="color: #dc2626; font-size: 0.85rem;"><%= erros.autor %></span>
+      <% } %>
 
       <label for="ano">Ano</label>
-      <input id="ano" name="ano" type="number" value="<%= livro.ano || '' %>" required>
+      <input id="ano" name="ano" type="number" value="<%= livro.ano || '' %>">
+      <% if (erros && erros.ano) { %>
+        <span style="color: #dc2626; font-size: 0.85rem;"><%= erros.ano %></span>
+      <% } %>
 
       <label for="categoria">Categoria</label>
-      <input id="categoria" name="categoria" type="text" value="<%= livro.categoria || '' %>" placeholder="Ex: Ficção, Tecnologia" required>
+      <input id="categoria" name="categoria" type="text" value="<%= livro.categoria || '' %>" placeholder="Ex: Ficção, Tecnologia">
 
       <label for="statusLeitura">Situação da Leitura</label>
       <select id="statusLeitura" name="statusLeitura" style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;">
