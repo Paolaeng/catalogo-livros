@@ -4,32 +4,58 @@ const livrosRepository = require('../services/livrosRepository');
 
 router.get('/', (req, res) => {
   const todosLivros = livrosRepository.listar();
-  const busca = typeof req.query.busca === 'string' ? req.query.busca.trim() : '';
+
+  const busca = typeof req.query.busca === 'string'
+    ? req.query.busca.trim()
+    : '';
+
   const buscaNormalizada = busca.toLowerCase();
+
   const categoriaFiltro = typeof req.query.categoria === 'string'
     ? req.query.categoria
     : '';
-  const todasCategorias = [...new Set(todosLivros.map((livro) => livro.categoria))];
+
+  const statusInformado = typeof req.query.statusLeitura === 'string'
+    ? req.query.statusLeitura
+    : '';
+
+  const statusFiltro = livrosRepository.statusLeituraValidos.includes(statusInformado)
+    ? statusInformado
+    : '';
+
+  const todasCategorias = [
+    ...new Set(todosLivros.map((livro) => livro.categoria))
+  ];
+
+  const todasSituacoes = livrosRepository.statusLeituraValidos;
+
   let livros = todosLivros;
 
   if (buscaNormalizada) {
     livros = livros.filter((livro) => {
-        const titulo = String(livro.titulo || '').toLowerCase();
-        const autor = String(livro.autor || '').toLowerCase();
+      const titulo = String(livro.titulo || '').toLowerCase();
+      const autor = String(livro.autor || '').toLowerCase();
 
-        return titulo.includes(buscaNormalizada) || autor.includes(buscaNormalizada);
+      return titulo.includes(buscaNormalizada)
+        || autor.includes(buscaNormalizada);
     });
   }
 
   if (categoriaFiltro) {
-    livros = livros.filter(livro => livro.categoria === categoriaFiltro);
+    livros = livros.filter((livro) => livro.categoria === categoriaFiltro);
+  }
+
+  if (statusFiltro) {
+    livros = livros.filter((livro) => livro.statusLeitura === statusFiltro);
   }
 
   res.render('livros/index', {
     livros,
     busca,
     categoriaFiltro,
-    todasCategorias
+    statusFiltro,
+    todasCategorias,
+    todasSituacoes
   });
 });
 

@@ -46,6 +46,17 @@ A Issue #1 adiciona categorias aos livros.
 - filtrar os livros por categoria;
 - usar `Geral` como valor padrão para livros antigos sem categoria.
 
+## Situação da leitura e filtro
+
+A Issue #2 adiciona o controle de progresso de leitura aos livros.
+
+É possível:
+
+* cadastrar e editar o status de leitura (`Quero ler`, `Lendo` ou `Concluído`);
+* visualizar a situação de leitura na listagem de livros;
+* filtrar os livros por status de leitura, preservando os demais filtros;
+* usar `Quero ler` como valor padrão para livros antigos sem status definido.
+
 ## Funcionalidades do snapshot inicial
 
 - Listagem de livros
