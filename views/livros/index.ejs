@@ -16,8 +16,31 @@
       <a class="button" href="/livros/novo">Cadastrar livro</a>
     </header>
 
+    <form class="search-form" method="get" action="/livros">
+      <label for="busca">Buscar por título ou autor</label>
+      <div class="search-controls">
+        <input
+          id="busca"
+          name="busca"
+          type="search"
+          value="<%= busca %>"
+          placeholder="Digite parte do título ou autor"
+        >
+        <button class="button" type="submit">Buscar</button>
+        <% if (busca) { %>
+          <a class="button secondary" href="/livros">Limpar busca</a>
+        <% } %>
+      </div>
+    </form>
+
     <% if (livros.length === 0) { %>
-      <p class="empty-state">Nenhum livro cadastrado ainda.</p>
+      <p class="empty-state">
+        <% if (busca) { %>
+          Nenhum livro encontrado para "<%= busca %>".
+        <% } else { %>
+          Nenhum livro cadastrado ainda.
+        <% } %>
+      </p>
     <% } else { %>
       <section class="book-list" aria-label="Lista de livros">
         <% livros.forEach((livro) => { %>

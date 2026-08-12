@@ -4,7 +4,18 @@ const livrosRepository = require('../services/livrosRepository');
 
 router.get('/', (req, res) => {
   const livros = livrosRepository.listar();
-  res.render('livros/index', { livros });
+  const busca = typeof req.query.busca === 'string' ? req.query.busca.trim() : '';
+  const buscaNormalizada = busca.toLowerCase();
+  const livrosFiltrados = buscaNormalizada
+    ? livros.filter((livro) => {
+        const titulo = String(livro.titulo || '').toLowerCase();
+        const autor = String(livro.autor || '').toLowerCase();
+
+        return titulo.includes(buscaNormalizada) || autor.includes(buscaNormalizada);
+      })
+    : livros;
+
+  res.render('livros/index', { livros: livrosFiltrados, busca });
 });
 
 router.get('/novo', (req, res) => {

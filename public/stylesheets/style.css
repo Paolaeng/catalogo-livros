@@ -48,6 +48,26 @@ body {
   background: #b42318;
 }
 
+.search-form {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.search-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-controls input {
+  flex: 1;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font: inherit;
+  padding: 10px;
+}
+
 .book-list {
   display: grid;
   gap: 12px;
@@ -106,7 +126,8 @@ body {
 @media (max-width: 640px) {
   .page-header,
   .book-card,
-  .actions {
+  .actions,
+  .search-controls {
     align-items: stretch;
     flex-direction: column;
   }
