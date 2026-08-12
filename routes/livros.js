@@ -25,11 +25,35 @@ router.get('/', (req, res) => {
     livros = livros.filter(livro => livro.categoria === categoriaFiltro);
   }
 
+  const camposOrdenacao = ['titulo', 'autor', 'ano'];
+  const ordenarPor = camposOrdenacao.includes(req.query.ordenarPor)
+    ? req.query.ordenarPor
+    : '';
+  const direcao = req.query.direcao === 'desc' ? 'desc' : 'asc';
+
+  if (ordenarPor) {
+    const fatorDirecao = direcao === 'desc' ? -1 : 1;
+
+    livros = [...livros].sort((livroA, livroB) => {
+      if (ordenarPor === 'ano') {
+        return (Number(livroA.ano) - Number(livroB.ano)) * fatorDirecao;
+      }
+
+      return String(livroA[ordenarPor] || '').localeCompare(
+        String(livroB[ordenarPor] || ''),
+        'pt-BR',
+        { sensitivity: 'base' }
+      ) * fatorDirecao;
+    });
+  }
+
   res.render('livros/index', {
     livros,
     busca,
     categoriaFiltro,
-    todasCategorias
+    todasCategorias,
+    ordenarPor,
+    direcao
   });
 });
 
