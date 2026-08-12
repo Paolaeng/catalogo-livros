@@ -26,6 +26,9 @@
       <label for="ano">Ano</label>
       <input id="ano" name="ano" type="number" value="<%= livro.ano || '' %>" required>
 
+      <label for="categoria">Categoria</label>
+      <input id="categoria" name="categoria" type="text" value="<%= livro.categoria || '' %>" placeholder="Ex: Ficção, Tecnologia, História" required>
+
       <button class="button" type="submit">Salvar</button>
     </form>
   </main>

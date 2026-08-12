@@ -18,6 +18,9 @@
 
     <form class="search-form" method="get" action="/livros">
       <label for="busca">Buscar por título ou autor</label>
+      <% if (categoriaFiltro) { %>
+        <input type="hidden" name="categoria" value="<%= categoriaFiltro %>">
+      <% } %>
       <div class="search-controls">
         <input
           id="busca"
@@ -33,12 +36,32 @@
       </div>
     </form>
 
+    <form method="get" action="/livros" class="filter-form" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+      <label for="categoria">Filtrar por categoria:</label>
+      <% if (busca) { %>
+        <input type="hidden" name="busca" value="<%= busca %>">
+      <% } %>
+      <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding: 8px; border-radius: 6px; border: 1px solid #bbb;">
+        <option value="">Todas as categorias</option>
+        <% todasCategorias.forEach(cat => { %>
+          <option value="<%= cat %>" <%= categoriaFiltro === cat ? 'selected' : '' %>><%= cat %></option>
+        <% }) %>
+      </select>
+      <% if (categoriaFiltro) { %>
+        <a href="/livros" class="button secondary" style="padding: 8px 12px; font-size: 0.9rem;">Limpar filtro</a>
+      <% } %>
+    </form>
+
     <% if (livros.length === 0) { %>
       <p class="empty-state">
-        <% if (busca) { %>
+        <% if (busca && categoriaFiltro) { %>
+          Nenhum livro encontrado para "<%= busca %>" nesta categoria.
+        <% } else if (busca) { %>
           Nenhum livro encontrado para "<%= busca %>".
+        <% } else if (categoriaFiltro) { %>
+          Nenhum livro encontrado para a categoria selecionada.
         <% } else { %>
-          Nenhum livro cadastrado ainda.
+          Nenhum livro cadastrado no catálogo.
         <% } %>
       </p>
     <% } else { %>
@@ -47,7 +70,7 @@
           <article class="book-card">
             <div>
               <h2><%= livro.titulo %></h2>
-              <p><%= livro.autor %> - <%= livro.ano %></p>
+              <p><%= livro.autor %> - <%= livro.ano %> | <span style="background: #e1effe; color: #1e429f; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem;"><%= livro.categoria %></span></p>
             </div>
 
             <div class="actions">

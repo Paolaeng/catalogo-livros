@@ -3,19 +3,34 @@ const router = express.Router();
 const livrosRepository = require('../services/livrosRepository');
 
 router.get('/', (req, res) => {
-  const livros = livrosRepository.listar();
+  const todosLivros = livrosRepository.listar();
   const busca = typeof req.query.busca === 'string' ? req.query.busca.trim() : '';
   const buscaNormalizada = busca.toLowerCase();
-  const livrosFiltrados = buscaNormalizada
-    ? livros.filter((livro) => {
+  const categoriaFiltro = typeof req.query.categoria === 'string'
+    ? req.query.categoria
+    : '';
+  const todasCategorias = [...new Set(todosLivros.map((livro) => livro.categoria))];
+  let livros = todosLivros;
+
+  if (buscaNormalizada) {
+    livros = livros.filter((livro) => {
         const titulo = String(livro.titulo || '').toLowerCase();
         const autor = String(livro.autor || '').toLowerCase();
 
         return titulo.includes(buscaNormalizada) || autor.includes(buscaNormalizada);
-      })
-    : livros;
+    });
+  }
 
-  res.render('livros/index', { livros: livrosFiltrados, busca });
+  if (categoriaFiltro) {
+    livros = livros.filter(livro => livro.categoria === categoriaFiltro);
+  }
+
+  res.render('livros/index', {
+    livros,
+    busca,
+    categoriaFiltro,
+    todasCategorias
+  });
 });
 
 router.get('/novo', (req, res) => {
