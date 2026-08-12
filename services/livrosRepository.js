@@ -20,10 +20,10 @@ function listar() {
   const conteudo = fs.readFileSync(dataPath, 'utf-8');
   const livros = JSON.parse(conteudo);
   
-  // Garante que registros antigos sem categoria venham com um valor padrão
   return livros.map(livro => ({
     ...livro,
-    categoria: livro.categoria || 'Geral'
+    categoria: livro.categoria || 'Geral',
+    statusLeitura: livro.statusLeitura || 'Quero ler'
   }));
 }
 
@@ -43,7 +43,8 @@ function criar(dados) {
     titulo: dados.titulo,
     autor: dados.autor,
     ano: Number(dados.ano),
-    categoria: dados.categoria || 'Geral'
+    categoria: dados.categoria || 'Geral',
+    statusLeitura: dados.statusLeitura || 'Quero ler'
   };
 
   livros.push(novoLivro);
@@ -65,7 +66,8 @@ function atualizar(id, dados) {
       titulo: dados.titulo,
       autor: dados.autor,
       ano: Number(dados.ano),
-      categoria: dados.categoria || 'Geral'
+      categoria: dados.categoria || 'Geral',
+      statusLeitura: dados.statusLeitura || 'Quero ler'
     };
   });
 
