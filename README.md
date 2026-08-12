@@ -1,8 +1,9 @@
-# Catalogo de Livros
 
-Aplicacao Web simples para gerenciamento de um catalogo pessoal de livros.
+Catalogo de Livros
 
-Este projeto faz parte do trabalho final da disciplina de Versionamento de Codigo.
+Aplicacao Web simples para gerenciamento de um catalogo pessoal de livros
+
+Este projeto faz parte do trabalho final da disciplina de Versionamento e Codigo.
 
 ## Tecnologias
 
