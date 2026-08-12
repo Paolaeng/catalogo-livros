@@ -38,6 +38,11 @@
         >
       <% } %>
 
+      <% if (ordenarPor) { %>
+        <input type="hidden" name="ordenarPor" value="<%= ordenarPor %>">
+        <input type="hidden" name="direcao" value="<%= direcao %>">
+      <% } %>
+
       <div class="search-controls">
         <input
           id="busca"
@@ -70,6 +75,19 @@
           type="hidden"
           name="busca"
           value="<%= busca %>"
+        >
+      <% } %>
+
+      <% if (ordenarPor) { %>
+        <input type="hidden" name="ordenarPor" value="<%= ordenarPor %>">
+        <input type="hidden" name="direcao" value="<%= direcao %>">
+      <% } %>
+
+      <% if (statusFiltro) { %>
+        <input
+          type="hidden"
+          name="statusLeitura"
+          value="<%= statusFiltro %>"
         >
       <% } %>
 
@@ -126,6 +144,32 @@
           Limpar filtros
         </a>
       <% } %>
+    </form>
+
+    <form class="sort-form" method="get" action="/livros">
+      <label for="ordenarPor">Ordenar lista</label>
+      <% if (busca) { %>
+        <input type="hidden" name="busca" value="<%= busca %>">
+      <% } %>
+      <% if (categoriaFiltro) { %>
+        <input type="hidden" name="categoria" value="<%= categoriaFiltro %>">
+      <% } %>
+      <% if (statusFiltro) { %>
+        <input type="hidden" name="statusLeitura" value="<%= statusFiltro %>">
+      <% } %>
+      <div class="sort-controls">
+        <select id="ordenarPor" name="ordenarPor">
+          <option value="">Sem ordenação</option>
+          <option value="titulo" <%= ordenarPor === 'titulo' ? 'selected' : '' %>>Título</option>
+          <option value="autor" <%= ordenarPor === 'autor' ? 'selected' : '' %>>Autor</option>
+          <option value="ano" <%= ordenarPor === 'ano' ? 'selected' : '' %>>Ano</option>
+        </select>
+        <select id="direcao" name="direcao">
+          <option value="asc" <%= direcao === 'asc' ? 'selected' : '' %>>Crescente</option>
+          <option value="desc" <%= direcao === 'desc' ? 'selected' : '' %>>Decrescente</option>
+        </select>
+        <button class="button secondary" type="submit">Ordenar</button>
+      </div>
     </form>
 
     <% if (livros.length === 0) { %>

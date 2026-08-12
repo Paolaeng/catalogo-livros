@@ -69,6 +69,10 @@ A Issue #2 adiciona o controle de progresso de leitura aos livros.
 
 Na listagem, use o campo de busca para procurar livros por parte do título ou do autor. A busca não diferencia letras maiúsculas e minúsculas e pode ser limpa pelo botão correspondente.
 
+## Ordenação da lista
+
+Na listagem, use os campos de ordenação para organizar os livros por título, autor ou ano, em ordem crescente ou decrescente. A ordenação pode ser combinada com a busca e os filtros por categoria e situação de leitura sem alterar o arquivo JSON.
+
 ## Integrantes
 
 - Patrik Viana

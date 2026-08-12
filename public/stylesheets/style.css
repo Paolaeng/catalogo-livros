@@ -68,6 +68,24 @@ body {
   padding: 10px;
 }
 
+.sort-form {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.sort-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.sort-controls select {
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font: inherit;
+  padding: 10px;
+}
+
 .book-list {
   display: grid;
   gap: 12px;
@@ -127,7 +145,8 @@ body {
   .page-header,
   .book-card,
   .actions,
-  .search-controls {
+  .search-controls,
+  .sort-controls {
     align-items: stretch;
     flex-direction: column;
   }
