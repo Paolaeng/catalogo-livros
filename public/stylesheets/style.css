@@ -151,3 +151,11 @@ body {
     flex-direction: column;
   }
 }
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #1f6feb;
+  outline-offset: 2px;
+}
